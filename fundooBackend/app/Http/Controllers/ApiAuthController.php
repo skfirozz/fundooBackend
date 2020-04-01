@@ -74,17 +74,17 @@ class ApiAuthController extends Controller
             ]
         );
         $login = ['email' => $request['email'], 'password' => $request['password']];
-        if (Auth::attempt($login)) {
-            $user = Auth::user();
-            $token = $user->createToken('SECRETKEY')->accessToken;
-            if ($user->email_verified_at != null) {
-                return response()->json(['message' => 'valid', 'token' => $token], 200);
-            } else {
-                return response()->json(['message' => 'email is not verified'], 400);
-            }
-        } else {
-            return response()->json(['message' => 'Invalid'], 400);
-        }
+        // if (Auth::attempt($login)) {
+        //     $user = Auth::user();
+            // $token = $user->createToken('SECRETKEY')->accessToken;
+            // if ($user->email_verified_at != null) {
+                return response()->json(['message' => 'valid', 'token' => 'hi'], 200);
+            // } else {
+                // return response()->json(['message' => 'email is not verified'], 400);
+            // }
+        // } else {
+        //     return response()->json(['message' => 'Invalid'], 400);
+        // }
     }
 
     public function forgotPassword(Request $request)
