@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\model\Notes;
 
 class NoteController extends Controller
 {

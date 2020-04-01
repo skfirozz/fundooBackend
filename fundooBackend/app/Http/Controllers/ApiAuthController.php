@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\User;
+use App\Libraries\RBMQSender;
 class ApiAuthController extends Controller
 {
     public function register(Request $request)
@@ -19,28 +20,28 @@ class ApiAuthController extends Controller
         $validatedData['name'] = $validated['firstName'] . " " . $validated['lastName'];
         $validatedData['email'] = $validated['email'];
         $validatedData['password'] = $validated['password'];
-
+        // echo "hiiiiiiiiiiiiiiiiiiiiiiiiii";
         $validatedData['password'] = bcrypt($validatedData['password']);
 
         $user = User::create($validatedData);
         
-        $token = $user->createToken('SECRETKEY')->accessToken;
+        // $token = $user->createToken('SECRETKEY')->accessToken;
         
-        $rabbitmq = new RBMQSender();
+        // $rabbitmq = new RBMQSender();
 
-        $toEmail = 'shaikfiroz838@gmail.com';
-        // $toEmail=$validatedData['email'];
-        $subject = "Please verify email for register";
-        $message = "Hi  \nThis is email verification mail from Fundoo.
-        \nFor complete registration process verify you email by click this link.
-        \n" . url('/') . "/api/verifyMail/" . $token . "
-        \nThanks.";
+        // $toEmail = 'shaikfiroz838@gmail.com';
+        // // $toEmail=$validatedData['email'];
+        // $subject = "Please verify email for register";
+        // $message = "Hi  \nThis is email verification mail from Fundoo.
+        // \nFor complete registration process verify you email by click this link.
+        // \n" . url('/') . "/api/verifyMail/" . $token . "
+        // \nThanks.";
 
-        if ($rabbitmq->sendMail($toEmail, $subject, $message)) {
-            return response(['user' => $user, 'access_token' => $token]);
-        } else {
-            return response()->json(['success' => $token, 'message' => 'Error While Sending Mail.'], 400);
-        }
+        // if ($rabbitmq->sendMail($toEmail, $subject, $message)) {
+        //     return response(['user' => $user, 'access_token' => $token]);
+        // } else {
+            return response()->json(['success' => 'success', 'message' => 'Error While Sending Mail.']);
+        // }
     }
 
     public function verifyMail($token)
