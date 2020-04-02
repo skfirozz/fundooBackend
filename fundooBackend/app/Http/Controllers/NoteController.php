@@ -183,7 +183,6 @@ class NoteController extends Controller
     public function setColor(Request $request)
     {
         $find = Notes::find($request['id']);
-        // echo $find,"\n";
         if($find)
         {
             $find->color = $request['color'];
