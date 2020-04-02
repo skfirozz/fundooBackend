@@ -185,7 +185,7 @@ class NoteController extends Controller
         $find = Notes::find($request['id']);
         if($find)
         {
-            $find->color = $request['color'];
+            $find->color = 'red';
             $find->save();
             return response()->json(['message' => 'color added successfully']);
         }
