@@ -59,6 +59,7 @@ class NoteController extends Controller
         }
     }
 
+    
     public function notTrash(Request $request)
     {
         $find = Notes::find($request['id']);
