@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Libraries\RBMQSender;
+use Illuminate\Support\Facades\Auth;
 class ApiAuthController extends Controller
 {
     public function register(Request $request)
@@ -20,7 +21,6 @@ class ApiAuthController extends Controller
         $validatedData['name'] = $validated['firstName'] . " " . $validated['lastName'];
         $validatedData['email'] = $validated['email'];
         $validatedData['password'] = $validated['password'];
-        // echo "hiiiiiiiiiiiiiiiiiiiiiiiiii";
         $validatedData['password'] = bcrypt($validatedData['password']);
 
         $user = User::create($validatedData);
@@ -40,7 +40,7 @@ class ApiAuthController extends Controller
         // if ($rabbitmq->sendMail($toEmail, $subject, $message)) {
         //     return response(['user' => $user, 'access_token' => $token]);
         // } else {
-            return response()->json(['success' => 'success', 'message' => 'Error While Sending Mail.']);
+            return response()->json(['success' => 'success', 'message' => 'Registerd successfully.']);
         // }
     }
 
@@ -75,7 +75,7 @@ class ApiAuthController extends Controller
         );
         $login = ['email' => $request['email'], 'password' => $request['password']];
         // if (Auth::attempt($login)) {
-        //     $user = Auth::user();
+        //     $user = Auth::users();
             // $token = $user->createToken('SECRETKEY')->accessToken;
             // if ($user->email_verified_at != null) {
                 return response()->json(['message' => 'valid', 'token' => 'hi'], 200);
@@ -83,7 +83,7 @@ class ApiAuthController extends Controller
                 // return response()->json(['message' => 'email is not verified'], 400);
             // }
         // } else {
-        //     return response()->json(['message' => 'Invalid'], 400);
+            // return response()->json(['message' => 'Invalid'], 400);
         // }
     }
 

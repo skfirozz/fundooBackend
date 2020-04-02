@@ -20,6 +20,7 @@ class NoteController extends Controller
         if ($inputValues['title'] == null  && $inputValues['description'] == null) {
             return response()->json(['message' => 'title and notes should not be empty']);
         } else {
+            $inputValues['userid']=1;
             $data = Notes::create($inputValues);
             return response()->json(['message' => 'Notes created successfully']);
         }
