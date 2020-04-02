@@ -118,16 +118,8 @@ class NoteController extends Controller
         */
         $find = Notes::where('userid', 1)->first();
         if ($find) {
-            $notes = Notes::where('userid',1)->get(['id']);
-            $array=array();
-            foreach($notes as $n)
-            {
-                $note=Notes::where(['id' => $n['id']])->get(['id','title','description','color',]);
-        //         // if($note)
-                // echo $n,"\n";
-                $array[]=$note;
-            }
-            return $array;
+            $notes = Notes::where('userid',1)->get(['id','title','description','color',]);
+        return response()->json(['data' => $notes],200);
         }
         else 
         {
