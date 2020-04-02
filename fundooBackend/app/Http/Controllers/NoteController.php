@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\model\Notes;
 
@@ -11,17 +12,18 @@ class NoteController extends Controller
     {
         $inputValues = $request->all();
 
-        /*    $token=$request->header('Authorization');
-        $tokenArray=preg_split("/\./", $token);
-        $decodeToken=base64_decode($tokenArray[1]);
-        $decodeToken=json_decode($decodeToken,true);
-        $id=$decodeToken['sub'];
-    */
+        // $token=$request->header('Authorization');
+        // $tokenArray=preg_split("/\./", $token);
+        // $decodeToken=base64_decode($tokenArray[1]);
+        // $decodeToken=json_decode($decodeToken,true);
+        // $id=$decodeToken['sub'];
+    
         if ($inputValues['title'] == null  && $inputValues['description'] == null) {
             return response()->json(['message' => 'title and notes should not be empty']);
         } else {
-            $inputValues['userid']=1;
+            $inputValues['userid']= 1;
             $data = Notes::create($inputValues);
+            // echo $id;
             return response()->json(['message' => 'Notes created successfully']);
         }
     }
@@ -120,7 +122,7 @@ class NoteController extends Controller
             $notes = Notes::where('userid',$request->id)->get(['id']);
             foreach($notes as $n)
             {
-                $note=Notes::where(['id' => $n['id'],'istrash' => '0','isarchive'=> '0'])->get(['id','userid','title','description','color',]);
+                $note=Notes::where(['id' => $n['id'],'istrash' => '0','isarchived'=> '0'])->get(['id','userid','title','description','color',]);
                 if($note)
                 echo $note,"\n";
             }
@@ -146,7 +148,7 @@ class NoteController extends Controller
             $notes = Notes::where('userid',$request->id)->get(['id']);
             foreach($notes as $n)
             {
-                $note=Notes::where(['id' => $n['id'],'istrash' => '1','isarchive'=> '0'])->get(['id','userid','title','description','color',]);
+                $note=Notes::where(['id' => $n['id'],'istrash' => '1','isarchived'=> '0'])->get(['id','userid','title','description','color',]);
                 if($note != '[]')
                 echo $note,"\n";
             }
@@ -172,7 +174,7 @@ class NoteController extends Controller
             $notes = Notes::where('userid',$request->id)->get(['id']);
             foreach($notes as $n)
             {
-                $note=Notes::where(['id' => $n['id'],'istrash' => '0','isarchive'=> '1'])->get(['id','userid','title','description','color',]);
+                $note=Notes::where(['id' => $n['id'],'istrash' => '0','isarchived'=> '1'])->get(['id','userid','title','description','color',]);
                 if($note != '[]')
                 echo $note,"\n";
             }

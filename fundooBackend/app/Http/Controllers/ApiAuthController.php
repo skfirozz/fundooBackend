@@ -21,11 +21,12 @@ class ApiAuthController extends Controller
         $validatedData['name'] = $validated['firstName'] . " " . $validated['lastName'];
         $validatedData['email'] = $validated['email'];
         $validatedData['password'] = $validated['password'];
+        // echo "hiiiiiiiiiiiiiiiiiiiiiiiiii";
         $validatedData['password'] = bcrypt($validatedData['password']);
 
         $user = User::create($validatedData);
         
-        // $token = $user->createToken('SECRETKEY')->accessToken;
+        $token = $user->createToken('SECRETKEY')->accessToken;
         
         // $rabbitmq = new RBMQSender();
 
@@ -38,9 +39,9 @@ class ApiAuthController extends Controller
         // \nThanks.";
 
         // if ($rabbitmq->sendMail($toEmail, $subject, $message)) {
-        //     return response(['user' => $user, 'access_token' => $token]);
+            return response(['user' => $user, 'access_token' => $token]);
         // } else {
-            return response()->json(['success' => 'success', 'message' => 'Registerd successfully.']);
+            // return response()->json(['success' => 'success', 'message' => 'Registerd successfully.']);
         // }
     }
 
@@ -74,11 +75,17 @@ class ApiAuthController extends Controller
             ]
         );
         $login = ['email' => $request['email'], 'password' => $request['password']];
-        // if (Auth::attempt($login)) {
-        //     $user = Auth::users();
-            // $token = $user->createToken('SECRETKEY')->accessToken;
+            $user = User::where(['email' => $login['email']])->first();
+            $token = $user->createToken('SECRETKEY')->accessToken;
             // if ($user->email_verified_at != null) {
-                return response()->json(['message' => 'valid', 'token' => 'hi'], 200);
+
+        // $token=$request->header('Authorization');
+        $tokenArray=preg_split("/\./", $token);
+        $decodeToken=base64_decode($tokenArray[1]);
+        $decodeToken=json_decode($decodeToken,true);
+        $id=$decodeToken['sub'];
+                
+                return response()->json(['message' => 'valid', 'token' => $id], 200);
             // } else {
                 // return response()->json(['message' => 'email is not verified'], 400);
             // }
