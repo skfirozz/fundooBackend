@@ -106,7 +106,7 @@ class NoteController extends Controller
         }
     }
 
-    public function displayNotes(Request $request)
+    public function getNotes()
     {
 
         /*
@@ -116,16 +116,18 @@ class NoteController extends Controller
         $decodeToken=json_decode($decodeToken,true);
         $id=$decodeToken['sub'];
         */
-        $find = Notes::where('userid', $request->id)->first();
+        $find = Notes::where('userid', 1)->first();
         if ($find) {
-    
-            $notes = Notes::where('userid',$request->id)->get(['id']);
+            $notes = Notes::where('userid',1)->get(['id']);
+            $array=array();
             foreach($notes as $n)
             {
-                $note=Notes::where(['id' => $n['id'],'istrash' => '0','isarchived'=> '0'])->get(['id','userid','title','description','color',]);
-                if($note)
-                echo $note,"\n";
+                $note=Notes::where(['id' => $n['id']])->get(['id','title','description','color',]);
+        //         // if($note)
+                // echo $n,"\n";
+                $array[]=$note;
             }
+            return $array;
         }
         else 
         {

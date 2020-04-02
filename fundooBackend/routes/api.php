@@ -35,7 +35,7 @@ Route::post('/unarchive','NoteController@unarchive');
 Route::post('/deleteNotes','NoteController@deleteNotes');
 
 //------------DISPLAY------------------
-Route::post('/displayNotes','NoteController@displayNotes');
+Route::get('/getNotes','NoteController@getNotes');
 Route::post('/displayTrash','NoteController@displayTrash');
 Route::post('/displayArchive','NoteController@displayArchive'); 
 
