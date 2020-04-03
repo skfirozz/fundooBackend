@@ -75,9 +75,9 @@ class NoteController extends Controller
         $find = Notes::find($request['id']);
         if ($find) {
             $find = Notes::find($request['id'])->delete();
-            return response()->json(['message' => 'Note Deleted Successfully'], 200);
+            return response()->json(['message' => 'Note Deleted Successfully']);
         } else {
-            return response()->json(['message' => 'Note Id Invalid'], 404);
+            return response()->json(['message' => 'Note Id Invalid']);
         }
     }
 
@@ -94,7 +94,7 @@ class NoteController extends Controller
         }
     }
 
-    public function displayTrash(Request $request)
+    public function getTrash(Request $request)
     {
             $find = Notes::where('userid', 1)->first();
             if ($find) {

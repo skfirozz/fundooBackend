@@ -33,11 +33,11 @@ Route::post('/archive','NoteController@archive');
 Route::post('/updateArchive','NoteController@archive');
 Route::post('/updatepin', 'NoteController@updatePin');
 //------deleting permanently-----------
-Route::post('/deleteNotes','NoteController@deleteNotes');
+Route::post('/delete','NoteController@deleteNotes');
 
 //------------DISPLAY------------------
 Route::get('/getNotes','NoteController@getNotes');
-Route::post('/displayTrash','NoteController@displayTrash');
+Route::get('/getTrash','NoteController@getTrash');
 Route::get('/getArchive','NoteController@getArchive'); 
 
 
