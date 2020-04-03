@@ -23,7 +23,6 @@ class NoteController extends Controller
         } else {
             $inputValues['userid']= 1;
             $data = Notes::create($inputValues);
-            // echo $id;
             return response()->json(['message' => 'Notes created successfully']);
         }
     }
@@ -51,24 +50,11 @@ class NoteController extends Controller
     {
         $find = Notes::find($request['id']);
         if ($find) {
-            $find->istrash = 1;
+            $find->istrash =$request['istrash'];
             $find->save();
-            return response()->json(['message' => 'notes trashed']);
+            return response()->json(['message' => 'trashed successfully']);
         } else {
-            return response()->json(['message' => 'unauthorized error']);
-        }
-    }
-
-    
-    public function notTrash(Request $request)
-    {
-        $find = Notes::find($request['id']);
-        if ($find) {
-            $find->istrash = 0;
-            $find->save();
-            return response()->json(['message' => 'restores notes successfully']);
-        } else {
-            return response()->json(['message' => 'unauthorized error']);
+            return response()->json(['message' => 'unauthorized user']);
         }
     }
 
@@ -76,21 +62,9 @@ class NoteController extends Controller
     {
         $find = Notes::find($request['id']);
         if ($find) {
-            $find->isarchive = 1;
+            $find->isarchived =$request['isarchived'];
             $find->save();
             return response()->json(['message' => 'archived successfully']);
-        } else {
-            return response()->json(['message' => 'unauthorized user']);
-        }
-    }
-
-    public function unarchive(Request $request)
-    {
-        $find = Notes::find($request['id']);
-        if ($find) {
-            $find->isarchive = 0;
-            $find->save();
-            return response()->json(['message' => 'unarchived successfully']);
         } else {
             return response()->json(['message' => 'unauthorized user']);
         }
@@ -109,17 +83,9 @@ class NoteController extends Controller
 
     public function getNotes()
     {
-
-        /*
-        $token=$request->header('Authorization');
-        $tokenArray=preg_split("/\./", $token);
-        $decodeToken=base64_decode($tokenArray[1]);
-        $decodeToken=json_decode($decodeToken,true);
-        $id=$decodeToken['sub'];
-        */
         $find = Notes::where('userid', 1)->first();
         if ($find) {
-            $notes = Notes::where('userid',1)->get(['id','title','description','color',]);
+            $notes = Notes::where('userid',1)->get(['id','title','description','color','ispinned','isarchived','istrash']);
         return response()->json(['data' => $notes],200);
         }
         else 
@@ -130,49 +96,24 @@ class NoteController extends Controller
 
     public function displayTrash(Request $request)
     {
-         /*
-        $token=$request->header('Authorization');
-        $tokenArray=preg_split("/\./", $token);
-        $decodeToken=base64_decode($tokenArray[1]);
-        $decodeToken=json_decode($decodeToken,true);
-        $id=$decodeToken['sub'];
-        */
-        $find = Notes::where('userid', $request->id)->first();
-        if ($find) {
-    
-            $notes = Notes::where('userid',$request->id)->get(['id']);
-            foreach($notes as $n)
-            {
-                $note=Notes::where(['id' => $n['id'],'istrash' => '1','isarchived'=> '0'])->get(['id','userid','title','description','color',]);
-                if($note != '[]')
-                echo $note,"\n";
+            $find = Notes::where('userid', 1)->first();
+            if ($find) {
+                $notes = Notes::where(['userid' => 1 ,'istrash'=>true])->get(['id','title','description','color','istrash']);
+                return response()->json(['data' => $notes],200);
             }
-        }
-        else 
-        {
-            return response()->json(['message' => 'unauthorized error']);
-        }
+            else 
+            {
+                return response()->json(['message' => 'unauthorized error']);
+            }
     }
 
-    public function displayArchive(Request $request)
+
+    public function getArchive()
     {
-         /*
-        $token=$request->header('Authorization');
-        $tokenArray=preg_split("/\./", $token);
-        $decodeToken=base64_decode($tokenArray[1]);
-        $decodeToken=json_decode($decodeToken,true);
-        $id=$decodeToken['sub'];
-        */
-        $find = Notes::where('userid', $request->id)->first();
+        $find = Notes::where('userid', 1)->first();
         if ($find) {
-    
-            $notes = Notes::where('userid',$request->id)->get(['id']);
-            foreach($notes as $n)
-            {
-                $note=Notes::where(['id' => $n['id'],'istrash' => '0','isarchived'=> '1'])->get(['id','userid','title','description','color',]);
-                if($note != '[]')
-                echo $note,"\n";
-            }
+            $notes = Notes::where(['userid' => 1 ,'isarchived'=> true,'istrash'=>false])->get(['id','title','description','color','ispinned','isarchived','istrash']);
+        return response()->json(['data' => $notes],200);
         }
         else 
         {
@@ -180,13 +121,13 @@ class NoteController extends Controller
         }
     }
 
-
+    //working
     public function setColor(Request $request)
     {
         $find = Notes::find($request['id']);
         if($find)
         {
-            $find->color = 'red';
+            $find->color = $request['color'];
             $find->save();
             return response()->json(['message' => 'color added successfully']);
         }
@@ -194,4 +135,20 @@ class NoteController extends Controller
             return response()->json(['message' => 'unauthorized error']);
         }
     }
+
+    //working
+    public function updatePin(Request $request)
+    {
+        $find = Notes::find($request['id']);
+        if($find)
+        {
+            $find->ispinned = $request['ispinned'];
+            $find->save();
+            return response()->json(['message' => 'pin changed successfully']);
+        }
+        else{
+            return response()->json(['message' => 'unauthorized error']);
+        }
+    }
+
 }

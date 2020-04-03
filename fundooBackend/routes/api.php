@@ -27,17 +27,18 @@ Route::post('/login', 'ApiAuthController@login');
 Route::post('/createnote','NoteController@createNotes');
 Route::post('/editnotes','NoteController@editNotes');
 Route::post('/setColor','NoteController@setColor');
-Route::post('/trash','NoteController@trash');
+Route::post('/updateTrash','NoteController@trash');
 Route::post('/nottrash','NoteController@notTrash');
 Route::post('/archive','NoteController@archive');
-Route::post('/unarchive','NoteController@unarchive');
+Route::post('/updateArchive','NoteController@archive');
+Route::post('/updatepin', 'NoteController@updatePin');
 //------deleting permanently-----------
 Route::post('/deleteNotes','NoteController@deleteNotes');
 
 //------------DISPLAY------------------
 Route::get('/getNotes','NoteController@getNotes');
 Route::post('/displayTrash','NoteController@displayTrash');
-Route::post('/displayArchive','NoteController@displayArchive'); 
+Route::get('/getArchive','NoteController@getArchive'); 
 
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
