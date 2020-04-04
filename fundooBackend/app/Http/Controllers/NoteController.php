@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\model\Notes;
+use App\model\Label;
 
 class NoteController extends Controller
 {
@@ -27,6 +28,23 @@ class NoteController extends Controller
         }
     }
 
+    public function createLabel(Request $request)
+    {
+        $inputValues = $request->all();
+        if($request['label'] != null )
+        {
+            $inputValues['label']=$request['label'];
+            $inputValues['userid']=1;
+            $data=Label::create($inputValues);
+            return response()->json(['message' => 'label created successfully']);
+        }
+        else{
+            return response()->json(['message' => 'label not created']);
+        }
+    }
+
+
+    
     public function editNotes(Request $request)
     {
         $inputValues = $request->all();

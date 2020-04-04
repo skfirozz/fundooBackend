@@ -25,6 +25,7 @@ Route::post('/login', 'ApiAuthController@login');
 
 //----------------Notes--------------------
 Route::post('/createnote','NoteController@createNotes');
+Route::post('/createLabel','NoteController@createLabel');
 Route::post('/editnotes','NoteController@editNotes');
 Route::post('/setColor','NoteController@setColor');
 Route::post('/updateTrash','NoteController@trash');
