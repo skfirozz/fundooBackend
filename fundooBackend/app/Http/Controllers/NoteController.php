@@ -47,7 +47,7 @@ class NoteController extends Controller
     {
         $find = Label::find(1);
         if ($find) {
-           $labels=Label::where(['userid' => 1])->get(['id']);
+           $labels=Label::where(['userid' => 1])->get(['id','label']);
             return response()->json(['data' => $labels]);
         } else {
             return response()->json(['message' => 'unauthorized user']);
