@@ -43,8 +43,17 @@ class NoteController extends Controller
         }
     }
 
+    public function getLabels()
+    {
+        $find = Label::find(1);
+        if ($find) {
+           $labels=Label::where(['userid' => 1])->get(['id']);
+            return response()->json(['data' => $labels]);
+        } else {
+            return response()->json(['message' => 'unauthorized user']);
+        }
+    }
 
-    
     public function editNotes(Request $request)
     {
         $inputValues = $request->all();
