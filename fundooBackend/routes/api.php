@@ -40,6 +40,7 @@ Route::get('/getPinNotes','NoteController@getPinNotes');
 Route::get('/getUnPinNotes','NoteController@getUnPinNotes');
 Route::get('/getTrash','NoteController@getTrash');
 Route::get('/getArchive','NoteController@getArchive'); 
+Route::get('/getallLabels','NoteController@getallLabels');
 
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
