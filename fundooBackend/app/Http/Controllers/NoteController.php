@@ -24,23 +24,23 @@ class NoteController extends Controller
         } else {
             $inputValues['userid']= 1;
             $data = Notes::create($inputValues);
-            return response()->json(['message' => 'Notes created successfully']);
+            return response()->json(['message' => $data]);
         }
     }
 
-    public function createLabel(Request $labels)
+    public function createLabel(Request $request)
     {
-        $label = $labels->all();
-        // if($request['label'] != null )
-        // {
-            // $label['label']='ershad';
-            // $label['userid']=1;
-            // $data=Label::create($label);
-            return response()->json(['message' => $label]);
-        // }
-        // else{
-        //     return response()->json(['message' => 'label not created']);
-        // }
+        $label = $request->all();
+        if($request['labelName'] != null )
+        {
+            $label['label']=$request['labelName'];
+            $label['userid']=1;
+            $data=Label::create($label);
+            return response()->json(['message' => $data]);
+        }
+        else{
+            return response()->json(['message' => 'label not created']);
+        }
     }
 
     public function getLabels()
@@ -123,7 +123,7 @@ class NoteController extends Controller
     {
         $find = Notes::where('userid', 1)->first();
         if ($find) {
-            $notes = Notes::where(['userid' => 1 ,'isarchived'=>false, 'istrash'=>false])->get(['id','label','title','description','color','ispinned','isarchived','istrash']);
+            $notes = Notes::where(['userid' => 1 ,'isarchived'=>false, 'istrash'=>false])->get(['id','labelname','title','description','color','ispinned','isarchived','istrash']);
         return response()->json(['data' => $notes],200);
         }
         else 
