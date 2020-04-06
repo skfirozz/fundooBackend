@@ -34,6 +34,8 @@ Route::post('/updateArchive','NoteController@archive');
 Route::post('/updatepin', 'NoteController@updatePin');
 //------deleting permanently-----------
 Route::post('/delete','NoteController@deleteNotes');
+Route::post('/deleteLabel','NoteController@deleteLabel');
+
 
 //------------DISPLAY------------------
 Route::get('/getAllNotes','NoteController@getAllNotes');
