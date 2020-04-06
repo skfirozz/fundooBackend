@@ -31,9 +31,9 @@ class NoteController extends Controller
     public function createLabel(Request $request)
     {
         $label = $request->all();
-        if($request['labelName'] != null )
+        if($request['labelname'] != null )
         {
-            $label['label']=$request['labelName'];
+            $label['label']=$request['labelname'];
             $label['userid']=1;
             $data=Label::create($label);
             return response()->json(['message' => $data]);
