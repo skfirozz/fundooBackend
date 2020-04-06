@@ -28,19 +28,19 @@ class NoteController extends Controller
         }
     }
 
-    public function createLabel(Request $request)
+    public function createLabel(Request $labels)
     {
-        $inputValues = $request->all();
-        if($request['label'] != null )
-        {
-            $inputValues['label']=$request['label'];
-            $inputValues['userid']=1;
-            $data=Label::create($inputValues);
-            return response()->json(['message' => 'label created successfully']);
-        }
-        else{
-            return response()->json(['message' => 'label not created']);
-        }
+        $label = $labels->all();
+        // if($request['label'] != null )
+        // {
+            // $label['label']='ershad';
+            // $label['userid']=1;
+            // $data=Label::create($label);
+            return response()->json(['message' => $label]);
+        // }
+        // else{
+        //     return response()->json(['message' => 'label not created']);
+        // }
     }
 
     public function getLabels()
@@ -115,7 +115,7 @@ class NoteController extends Controller
             $find =Label::find($request['id'])->delete();
             return response()->json(['message' => 'label Deleted Successfully']);
         } else {
-            return response()->json(['message' => 'Label Id Invalid']);
+            return response()->json(['message' => 'Note Id Invalid']);
         }
     }
 
