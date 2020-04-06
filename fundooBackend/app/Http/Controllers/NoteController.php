@@ -108,6 +108,31 @@ class NoteController extends Controller
         }
     }
 
+    public function deleteLabel(Request $request) 
+    {
+        $find = Label::find($request['id']);
+        if ($find) {
+            $find =Label::find($request['id'])->delete();
+            return response()->json(['message' => 'label Deleted Successfully']);
+        } else {
+            return response()->json(['message' => 'Label Id Invalid']);
+        }
+    }
+
+    public function getAllNotes()
+    {
+        $find = Notes::where('userid', 1)->first();
+        if ($find) {
+            $notes = Notes::where(['userid' => 1 ,'isarchived'=>false, 'istrash'=>false])->get(['id','label','title','description','color','ispinned','isarchived','istrash']);
+        return response()->json(['data' => $notes],200);
+        }
+        else 
+        {
+            return response()->json(['data' => 'unauthorized error']);
+        }
+    }
+
+
     public function getPinNotes()
     {
         $find = Notes::where('userid', 1)->first();

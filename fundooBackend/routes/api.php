@@ -36,6 +36,7 @@ Route::post('/updatepin', 'NoteController@updatePin');
 Route::post('/delete','NoteController@deleteNotes');
 
 //------------DISPLAY------------------
+Route::get('/getAllNotes','NoteController@getAllNotes');
 Route::get('/getPinNotes','NoteController@getPinNotes');
 Route::get('/getUnPinNotes','NoteController@getUnPinNotes');
 Route::get('/getTrash','NoteController@getTrash');
