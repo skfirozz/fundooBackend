@@ -14,7 +14,10 @@ class CreateLabelnotesTable extends Migration
     public function up()
     {
         Schema::create('labelnotes', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->unsignedInteger('userid');
+            $table->unsignedInteger('noteid');
+            $table->string('labelname');
             $table->timestamps();
         });
     }
