@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\model\Notes;
 use App\model\Label;
+use App\model\Labelnotes;
 
 class NoteController extends Controller
 {
@@ -30,12 +31,11 @@ class NoteController extends Controller
 
     public function createLabel(Request $request)
     {
-        $label = $request->all();
+        $labelname =$request->all();
         if($request['labelname'] != null )
         {
-            $label['label']=$request['labelname'];
-            $label['userid']=1;
-            $data=Label::create($label);
+            $labelname['userid']=1;
+            $data=Labelnotes::create($labelname);
             return response()->json(['message' => $data]);
         }
         else{
@@ -43,11 +43,26 @@ class NoteController extends Controller
         }
     }
 
+    public function createLabelName(Request $request)
+    {
+        $labelname =$request->all();
+        if($request['labelname'] != null )
+        {
+            $labelname['userid']=1;
+            $data=Labelnotes::create($labelname);
+            return response()->json(['message' => $data]);
+        }
+        else{
+            return response()->json(['message' => 'label not created']);
+        }
+
+    }
+
     public function getLabels()
     {
-        $find = Label::find(1);
+        $find = Labelnotes::find(1);
         if ($find) {
-           $labels=Label::where(['userid' => 1])->get(['id','label']);
+           $labels=Labelnotes::where(['userid' => 1])->get(['id','label']);
             return response()->json(['data' => $labels]);
         } else {
             return response()->json(['message' => 'unauthorized user']);
@@ -110,9 +125,9 @@ class NoteController extends Controller
 
     public function deleteLabel(Request $request) 
     {
-        $find = Label::find($request['id']);
+        $find = Labelnotes::find($request['id']);
         if ($find) {
-            $find =Label::find($request['id'])->delete();
+            $find =Labelnotes::find($request['id'])->delete();
             return response()->json(['message' => 'label Deleted Successfully']);
         } else {
             return response()->json(['message' => 'Note Id Invalid']);

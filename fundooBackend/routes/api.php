@@ -49,7 +49,7 @@ Route::get('/getallLabels','NoteController@getallLabels');
 //----------Labels----------------
 Route::post('/createLabel','NoteController@createLabel');
 Route::get('/getLabels','NoteController@getLabels');
-
+Route::post('/createLabelName','NoteController@createLabelName');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
