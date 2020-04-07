@@ -57,12 +57,37 @@ class NoteController extends Controller
         }
     }
 
-    public function getLabels()
+    public function getUniqueLabels()
     {
         $find = Labelnotes::find(1);
         if ($find) {
-           $labels=Labelnotes::where(['userid' => 1])->get(['id','label']);
-            return response()->json(['data' => $labels]);
+           $labels=Labelnotes::where(['userid' => 1])->get(['id','labelname']);
+           $result=array();
+           for($i=0;$i<count($labels);$i++)
+            {
+                $inc=0;
+                $temp=$labels[$i]['labelname'];
+                for($j=0;$j<count($result);$j++)
+                {
+                    if($temp==$result[$j]['labelname'])
+                    $inc++;
+                }
+                if($inc==0)
+                $result[]=$labels[$i];
+            }
+           return response()->json(['data' => $result]);
+        } else {
+            return response()->json(['message' => 'unauthorized user']);
+        }
+    }
+
+
+    public function getLabelNotes()
+    {
+        $find = Labelnotes::find(1);
+        if ($find) {
+           $labels=Labelnotes::where(['userid' => 1])->get(['id','labelname','noteid']);
+           return response()->json(['data' => $labels]);
         } else {
             return response()->json(['message' => 'unauthorized user']);
         }
@@ -250,7 +275,7 @@ class NoteController extends Controller
             $find->title= $request['title'];
             $find->description=$request['description'];
             $find->save();
-            return  response()->json(['message' => 'pin changed successfully']);
+            return  response()->json(['message' => 'notes updates successfully']);
         }
         else{
             return response()->json(['message' => 'unauthorized error']);

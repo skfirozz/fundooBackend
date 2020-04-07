@@ -26,6 +26,7 @@ Route::post('/login', 'ApiAuthController@login');
 //----------------Notes--------------------
 Route::post('/createnote','NoteController@createNotes');
 Route::post('/editnotes','NoteController@editNotes');
+Route::post('/updateNotes','NoteController@updateNotes');
 
 Route::post('/setColor','NoteController@setColor');
 Route::post('/updateTrash','NoteController@trash');
@@ -48,8 +49,9 @@ Route::get('/getallLabels','NoteController@getallLabels');
 
 //----------Labels----------------
 Route::post('/createLabel','NoteController@createLabel');
-Route::get('/getLabels','NoteController@getLabels');
+Route::get('/getLabels','NoteController@getUniqueLabels');
 Route::post('/createLabelName','NoteController@createLabelName');
+Route::get('/getLabelNotes','NoteController@getLabelNotes');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
