@@ -55,7 +55,6 @@ class NoteController extends Controller
         else{
             return response()->json(['message' => 'label not created']);
         }
-
     }
 
     public function getLabels()
@@ -237,6 +236,21 @@ class NoteController extends Controller
             $find->ispinned = $request['ispinned'];
             $find->save();
             return response()->json(['message' => 'pin changed successfully']);
+        }
+        else{
+            return response()->json(['message' => 'unauthorized error']);
+        }
+    }
+
+    public function updateNotes(Request $request)
+    {
+        $find=Notes::find($request['id']);
+        if($find)
+        {
+            $find->title= $request['title'];
+            $find->description=$request['description'];
+            $find->save();
+            return  response()->json(['message' => 'pin changed successfully']);
         }
         else{
             return response()->json(['message' => 'unauthorized error']);
