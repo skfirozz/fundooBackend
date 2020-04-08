@@ -43,20 +43,6 @@ class NoteController extends Controller
         }
     }
 
-    public function createLabelName(Request $request)
-    {
-        $labelname =$request->all();
-        if($request['labelname'] != null )
-        {
-            $labelname['userid']=1;
-            $data=Labelnotes::create($labelname);
-            return response()->json(['message' => $data]);
-        }
-        else{
-            return response()->json(['message' => 'label not created']);
-        }
-    }
-
     public function getUniqueLabels()
     {
         $find = Labelnotes::find(1);
@@ -93,26 +79,7 @@ class NoteController extends Controller
         }
     }
 
-    public function editNotes(Request $request)
-    {
-        $inputValues = $request->all();
-        $data = Notes::find($request['id']);
-
-        if ($data) {
-            if ($inputValues['title'] == null && $inputValues['description'] == null) {
-                return response()->json(['message' => 'title and notes should not be empty']);
-            } else {
-                $data->title = $inputValues['title'];
-                $data->description = $inputValues['description'];
-                $data->save();
-                return response()->json(['message' => 'title and notes updated']);
-            }
-        } else {
-            return response()->json(['message' => 'user not found']);
-        }
-    }
-
-    public function trash(Request $request)
+    public function updateTrash(Request $request)
     {
         $find = Notes::find($request['id']);
         if ($find) {
@@ -124,7 +91,7 @@ class NoteController extends Controller
         }
     }
 
-    public function archive(Request $request)
+    public function updateArchive(Request $request)
     {
         $find = Notes::find($request['id']);
         if ($find) {
@@ -198,7 +165,7 @@ class NoteController extends Controller
         }
     }
 
-    public function getTrash(Request $request)
+    public function getTrashNotes(Request $request)
     {
             $find = Notes::where('userid', 1)->first();
             if ($find) {
@@ -212,7 +179,7 @@ class NoteController extends Controller
     }
 
 
-    public function getArchive()
+    public function getArchiveNotes()
     {
         $find = Notes::where('userid', 1)->first();
         if ($find) {

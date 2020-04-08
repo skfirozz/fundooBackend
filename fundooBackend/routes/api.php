@@ -25,17 +25,14 @@ Route::post('/login', 'ApiAuthController@login');
 
 //----------------Notes--------------------
 Route::post('/createnote','NoteController@createNotes');
-Route::post('/editnotes','NoteController@editNotes');
 Route::post('/updateNotes','NoteController@updateNotes');
 
 Route::post('/setColor','NoteController@setColor');
-Route::post('/updateTrash','NoteController@trash');
-Route::post('/nottrash','NoteController@notTrash');
-Route::post('/archive','NoteController@archive');
-Route::post('/updateArchive','NoteController@archive');
+Route::post('/updateTrash','NoteController@updateTrash');
+Route::post('/updateArchive','NoteController@updateArchive');
 Route::post('/updatepin', 'NoteController@updatePin');
 //------deleting permanently-----------
-Route::post('/delete','NoteController@deleteNotes');
+Route::post('/deleteNotes','NoteController@deleteNotes');
 Route::post('/deleteLabel','NoteController@deleteLabel');
 
 
@@ -43,14 +40,13 @@ Route::post('/deleteLabel','NoteController@deleteLabel');
 Route::get('/getAllNotes','NoteController@getAllNotes');
 Route::get('/getPinNotes','NoteController@getPinNotes');
 Route::get('/getUnPinNotes','NoteController@getUnPinNotes');
-Route::get('/getTrash','NoteController@getTrash');
-Route::get('/getArchive','NoteController@getArchive'); 
+Route::get('/getTrashNotes','NoteController@getTrashNotes');
+Route::get('/getArchive','NoteController@getArchiveNotes'); 
 Route::get('/getallLabels','NoteController@getallLabels');
 
 //----------Labels----------------
 Route::post('/createLabel','NoteController@createLabel');
 Route::get('/getLabels','NoteController@getUniqueLabels');
-Route::post('/createLabelName','NoteController@createLabelName');
 Route::get('/getLabelNotes','NoteController@getLabelNotes');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
