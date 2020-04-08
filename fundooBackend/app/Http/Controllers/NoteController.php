@@ -32,7 +32,11 @@ class NoteController extends Controller
     public function createLabel(Request $request)//to create new Labek Name
     {
         $labelname =$request->all();
-        if($request['labelname'] != null )
+        // if($labelname['noteid']==null){
+        //     $labelname['noteid']=null;
+        // }
+        $find=Labelnotes::where(['userid' => 1,'noteid'=>$labelname['noteid'],'labelname'=> $labelname['labelname']])->get(['id']);
+        if(count($find) == 0)
         {
             $labelname['userid']=1;
             $data=Labelnotes::create($labelname);
@@ -40,7 +44,7 @@ class NoteController extends Controller
         }
         else{
             return response()->json(['message' => 'label not created']);
-        }
+        }   
     }
 
     public function getUniqueLabels()//to get label names without repitation
@@ -129,7 +133,7 @@ class NoteController extends Controller
     {
         $find = Notes::where('userid', 1)->first();
         if ($find) {
-            $notes = Notes::where(['userid' => 1 ,'isarchived'=>false, 'istrash'=>false])->get(['id','labelname','title','description','color','ispinned','isarchived','istrash']);
+            $notes = Notes::where(['userid' => 1 ,'isarchived'=>false, 'istrash'=>false])->get(['id','labelname','title','description','color','ispinned','isarchived','istrash','reminder']);
         return response()->json(['data' => $notes],200);
         }
         else 
@@ -143,7 +147,7 @@ class NoteController extends Controller
     {
         $find = Notes::where('userid', 1)->first();
         if ($find) {
-            $notes = Notes::where(['userid' => 1 ,'ispinned'=>true])->get(['id','title','description','color','ispinned','isarchived','istrash']);
+            $notes = Notes::where(['userid' => 1 ,'ispinned'=>true])->get(['id','title','description','color','ispinned','isarchived','istrash','reminder']);
         return response()->json(['data' => $notes],200);
         }
         else 
@@ -156,7 +160,7 @@ class NoteController extends Controller
     {
         $find = Notes::where('userid', 1)->first();
         if ($find) {
-            $notes = Notes::where(['userid' => 1 ,'ispinned'=>false])->get(['id','title','description','color','ispinned','isarchived','istrash']);
+            $notes = Notes::where(['userid' => 1 ,'ispinned'=>false])->get(['id','title','description','color','ispinned','isarchived','istrash','reminder']);
         return response()->json(['data' => $notes],200);
         }
         else 
@@ -169,7 +173,7 @@ class NoteController extends Controller
     {
             $find = Notes::where('userid', 1)->first();
             if ($find) {
-                $notes = Notes::where(['userid' => 1 ,'istrash'=>true])->get(['id','title','description','color','istrash']);
+                $notes = Notes::where(['userid' => 1 ,'istrash'=>true])->get(['id','title','description','color','istrash','reminder']);
                 return response()->json(['data' => $notes],200);
             }
             else 
@@ -183,7 +187,7 @@ class NoteController extends Controller
     {
         $find = Notes::where('userid', 1)->first();
         if ($find) {
-            $notes = Notes::where(['userid' => 1 ,'isarchived'=> true,'istrash'=>false])->get(['id','title','description','color','ispinned','isarchived','istrash']);
+            $notes = Notes::where(['userid' => 1 ,'isarchived'=> true,'istrash'=>false])->get(['id','title','description','color','ispinned','isarchived','istrash','reminder']);
         return response()->json(['data' => $notes],200);
         }
         else 
@@ -196,7 +200,7 @@ class NoteController extends Controller
     {
         $find = Notes::where('userid', 1)->first();
         if ($find) {
-            $notes = Notes::where(['userid' => 1])->get(['id','label','title','description','color','ispinned','isarchived','istrash']);
+            $notes = Notes::where(['userid' => 1])->get(['id','label','title','description','color','ispinned','isarchived','istrash','reminder']);
         return response()->json(['data' => $notes],200);
         }
         else 
@@ -249,4 +253,34 @@ class NoteController extends Controller
         }
     }
 
+    public function addReminder(Request $request)
+    {
+        $find=Notes::find($request['id']);
+        if($find)
+        {
+            $find->reminder= $request['reminder'];
+            $find->save();
+            return  response()->json(['message' => 'successfully added reminder']);
+        }
+        else{
+            return response()->json(['message' => 'unauthorized error']);
+        }
+    }
+
+    public function deleteReminder(Request $request)
+    {
+        $find=Notes::find($request['id']);
+        if($find)
+        {
+            $find->reminder= null;
+            $find->save();
+            return  response()->json(['message' => 'Reminder Removed successfully']);
+        }
+        else{
+            return response()->json(['message' => 'unauthorized error']);
+        }
+    }
+
+
+    
 }

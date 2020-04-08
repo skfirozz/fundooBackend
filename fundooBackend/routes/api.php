@@ -31,10 +31,13 @@ Route::post('/setColor','NoteController@setColor');
 Route::post('/updateTrash','NoteController@updateTrash');
 Route::post('/updateArchive','NoteController@updateArchive');
 Route::post('/updatepin', 'NoteController@updatePin');
+Route::post('/addReminder', 'NoteController@addReminder');
+
+
 //------deleting permanently-----------
 Route::post('/deleteNotes','NoteController@deleteNotes');
 Route::post('/deleteLabel','NoteController@deleteLabel');
-
+Route::post('/deleteReminder','NoteController@deleteReminder');
 
 //------------DISPLAY------------------
 Route::get('/getAllNotes','NoteController@getAllNotes');
@@ -48,6 +51,7 @@ Route::get('/getallLabels','NoteController@getallLabels');
 Route::post('/createLabel','NoteController@createLabel');
 Route::get('/getLabels','NoteController@getUniqueLabels');
 Route::get('/getLabelNotes','NoteController@getLabelNotes');
+
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
