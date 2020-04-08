@@ -22,12 +22,14 @@ class ApiAuthController extends Controller
         $validatedData['email'] = $validated['email'];
         $validatedData['password'] = $validated['password'];
         // echo "hiiiiiiiiiiiiiiiiiiiiiiiiii";
-        $validatedData['password'] = bcrypt($validatedData['password']);
+        // $validatedData['password'] = bcrypt($validatedData['password']);
 
         $user = User::create($validatedData);
         
         $token = $user->createToken('SECRETKEY')->accessToken;
         
+            $find=User::find();
+
         // $rabbitmq = new RBMQSender();
 
         // $toEmail = 'shaikfiroz838@gmail.com';
@@ -68,30 +70,14 @@ class ApiAuthController extends Controller
 
     public function login(Request $request)
     {
-        $loginData = $request->validate(
-            [
-                'email' => 'email|required',
-                'password' => 'required'
-            ]
-        );
-        $login = ['email' => $request['email'], 'password' => $request['password']];
-            $user = User::where(['email' => $login['email']])->first();
-            $token = $user->createToken('SECRETKEY')->accessToken;
-            // if ($user->email_verified_at != null) {
-
-        // $token=$request->header('Authorization');
-        $tokenArray=preg_split("/\./", $token);
-        $decodeToken=base64_decode($tokenArray[1]);
-        $decodeToken=json_decode($decodeToken,true);
-        $id=$decodeToken['sub'];
-                
-                return response()->json(['message' => 'valid', 'token' => $id], 200);
-            // } else {
-                // return response()->json(['message' => 'email is not verified'], 400);
-            // }
-        // } else {
-            // return response()->json(['message' => 'Invalid'], 400);
-        // }
+        $inputvalues=$request->all();
+        $data=User::where(['email' => $inputvalues['email'],'password'=>$inputvalues['password']])->get('id');
+        if($data!="[]"){
+            return response()->json(['message' => 'valid', 'token' => 1]);
+        }
+        else{
+            return response()->json(['message' => 'invalid', 'token' => $data]);
+        }
     }
 
     public function forgotPassword(Request $request)

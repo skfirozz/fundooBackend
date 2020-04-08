@@ -32,9 +32,6 @@ class NoteController extends Controller
     public function createLabel(Request $request)//to create new Labek Name
     {
         $labelname =$request->all();
-        // if($labelname['noteid']==null){
-        //     $labelname['noteid']=null;
-        // }
         $find=Labelnotes::where(['userid' => 1,'noteid'=>$labelname['noteid'],'labelname'=> $labelname['labelname']])->get(['id']);
         if(count($find) == 0)
         {
