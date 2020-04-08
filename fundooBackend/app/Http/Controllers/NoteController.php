@@ -10,7 +10,7 @@ use App\model\Labelnotes;
 
 class NoteController extends Controller
 {
-    public function createNotes(Request $request)
+    public function createNotes(Request $request)//to create a new note
     {
         $inputValues = $request->all();
 
@@ -29,7 +29,7 @@ class NoteController extends Controller
         }
     }
 
-    public function createLabel(Request $request)
+    public function createLabel(Request $request)//to create new Labek Name
     {
         $labelname =$request->all();
         if($request['labelname'] != null )
@@ -43,7 +43,7 @@ class NoteController extends Controller
         }
     }
 
-    public function getUniqueLabels()
+    public function getUniqueLabels()//to get label names without repitation
     {
         $find = Labelnotes::find(1);
         if ($find) {
@@ -68,7 +68,7 @@ class NoteController extends Controller
     }
 
 
-    public function getLabelNotes()
+    public function getLabelNotes()//to get label names depend on note id
     {
         $find = Labelnotes::find(1);
         if ($find) {
@@ -79,7 +79,7 @@ class NoteController extends Controller
         }
     }
 
-    public function updateTrash(Request $request)
+    public function updateTrash(Request $request)//to update trash is deleted or removed from trash
     {
         $find = Notes::find($request['id']);
         if ($find) {
@@ -91,7 +91,7 @@ class NoteController extends Controller
         }
     }
 
-    public function updateArchive(Request $request)
+    public function updateArchive(Request $request)//to update note is archived or not
     {
         $find = Notes::find($request['id']);
         if ($find) {
@@ -103,7 +103,7 @@ class NoteController extends Controller
         }
     }
 
-    public function deleteNotes(Request $request)
+    public function deleteNotes(Request $request)//to delete notes permanently
     {
         $find = Notes::find($request['id']);
         if ($find) {
@@ -114,7 +114,7 @@ class NoteController extends Controller
         }
     }
 
-    public function deleteLabel(Request $request) 
+    public function deleteLabel(Request $request) //to delete label names permanently
     {
         $find = Labelnotes::find($request['id']);
         if ($find) {
@@ -125,7 +125,7 @@ class NoteController extends Controller
         }
     }
 
-    public function getAllNotes()
+    public function getAllNotes()//to get all notes depend on user
     {
         $find = Notes::where('userid', 1)->first();
         if ($find) {
@@ -139,7 +139,7 @@ class NoteController extends Controller
     }
 
 
-    public function getPinNotes()
+    public function getPinNotes()//to get only pinned notes
     {
         $find = Notes::where('userid', 1)->first();
         if ($find) {
@@ -152,7 +152,7 @@ class NoteController extends Controller
         }
     }
 
-    public function getUnPinNotes()
+    public function getUnPinNotes()//to get unpinned notes
     {
         $find = Notes::where('userid', 1)->first();
         if ($find) {
@@ -165,7 +165,7 @@ class NoteController extends Controller
         }
     }
 
-    public function getTrashNotes(Request $request)
+    public function getTrashNotes(Request $request)//to get only trash notes
     {
             $find = Notes::where('userid', 1)->first();
             if ($find) {
@@ -179,7 +179,7 @@ class NoteController extends Controller
     }
 
 
-    public function getArchiveNotes()
+    public function getArchiveNotes()//to get only archived notes
     {
         $find = Notes::where('userid', 1)->first();
         if ($find) {
@@ -205,7 +205,7 @@ class NoteController extends Controller
         }
     }
     //working
-    public function setColor(Request $request)
+    public function setColor(Request $request)//to set color for notes
     {
         $find = Notes::find($request['id']);
         if($find)
@@ -220,7 +220,7 @@ class NoteController extends Controller
     }
 
     //working
-    public function updatePin(Request $request)
+    public function updatePin(Request $request)//to update pin 
     {
         $find = Notes::find($request['id']);
         if($find)
@@ -234,7 +234,7 @@ class NoteController extends Controller
         }
     }
 
-    public function updateNotes(Request $request)
+    public function updateNotes(Request $request)//to update notes data
     {
         $find=Notes::find($request['id']);
         if($find)
