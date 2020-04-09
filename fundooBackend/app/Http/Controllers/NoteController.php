@@ -10,6 +10,9 @@ use App\model\Labelnotes;
 
 class NoteController extends Controller
 {
+   
+
+
     public function createNotes(Request $request)//to create a new note
     {
         $inputValues = $request->all();
@@ -117,6 +120,20 @@ class NoteController extends Controller
             return response()->json(['message' => 'label Deleted Successfully']);
         } else {
             return response()->json(['message' => 'Note Id Invalid']);
+        }
+    }
+
+    public function deleteCollaboration(Request $request)
+    {
+        $find = Notes::find($request['id']);
+        if($find)
+        {
+            $find->collaborator = null;
+            $find->save();
+            return response()->json(['message' => 'Collaboration deleted successfully']);
+        }
+        else{
+            return response()->json(['message' => 'Error while deleting']);
         }
     }
 

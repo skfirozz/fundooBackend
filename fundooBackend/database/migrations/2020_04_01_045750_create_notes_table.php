@@ -24,6 +24,7 @@ class CreateNotesTable extends Migration
             $table->boolean('ispinned')->default(0);
             $table->boolean('isarchived')->default(0);
             $table->boolean('istrash')->default(0);
+            $table->string('collaborator')->nullable();
             $table->timestamps();
         });
     }

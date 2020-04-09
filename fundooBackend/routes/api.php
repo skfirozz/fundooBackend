@@ -52,6 +52,12 @@ Route::post('/createLabel','NoteController@createLabel');
 Route::get('/getLabels','NoteController@getUniqueLabels');
 Route::get('/getLabelNotes','NoteController@getLabelNotes');
 
+//--------userDetails----------
+Route::get('/userDetails','ApiAuthController@userDetails');
+Route::post('/addCollaborator','ApiAuthController@collaborator');
+Route::post('/deleteCollaboration','NoteController@deleteCollaboration');
+
+
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

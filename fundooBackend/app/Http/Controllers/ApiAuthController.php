@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\model\Notes;
 use App\Libraries\RBMQSender;
 use Illuminate\Support\Facades\Auth;
 class ApiAuthController extends Controller
@@ -135,6 +136,33 @@ class ApiAuthController extends Controller
             return response()->json(['message' => 'unknown'], 400);
         }
     }
+
+    public function userDetails(Request $request)
+    {
+        $find=User::find($request['token']);
+        if($find){
+            return response()->json(['data' => $find]);
+        }
+        return response()->json(['data' => 'error']);
+    }
+
+    public function collaborator(Request $request)
+    {
+        $emailExist=User::where(['email'=>$request['email']])->get('id');
+        if($emailExist){
+            $user = Notes::find($request['id']);
+            if ($user) {
+                $user->collaborator=$request['email'];
+                $user->save();
+                return response()->json(['message' => 'Collaboration is added'], 200);
+            } else {
+                return response()->json(['message' => 'Error while adding']);
+            }
+        }
+        else{
+            return response()->json(['message' => 'Unregistered user']);
+        }
+    }  
 
     public function test()
     {
