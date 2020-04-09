@@ -73,7 +73,7 @@ class ApiAuthController extends Controller
         $inputvalues=$request->all();
         $data=User::where(['email' => $inputvalues['email'],'password'=>$inputvalues['password']])->get('id');
         if($data!="[]"){
-            return response()->json(['message' => 'valid', 'token' => 1]);
+            return response()->json(['message' => 'valid', 'token' => $data[0]['id']]);
         }
         else{
             return response()->json(['message' => 'invalid', 'token' => $data]);
