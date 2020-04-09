@@ -13,12 +13,6 @@ class NoteController extends Controller
     public function createNotes(Request $request)//to create a new note
     {
         $inputValues = $request->all();
-
-        // $token=$request->header('Authorization');
-        // $tokenArray=preg_split("/\./", $token);
-        // $decodeToken=base64_decode($tokenArray[1]);
-        // $decodeToken=json_decode($decodeToken,true);
-        // $id=$decodeToken['sub'];
     
         if ($inputValues['title'] == null  && $inputValues['description'] == null) {
             return response()->json(['message' => 'title and notes should not be empty']);
