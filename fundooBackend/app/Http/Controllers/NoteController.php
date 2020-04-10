@@ -10,9 +10,6 @@ use App\model\Labelnotes;
 
 class NoteController extends Controller
 {
-   
-
-
     public function createNotes(Request $request)//to create a new note
     {
         $inputValues = $request->all();
@@ -139,7 +136,7 @@ class NoteController extends Controller
 
     public function getAllNotes(Request $request)//to get all notes main ---- this is enough to maintain display notes
     {
-        $find = Notes::find($request['token'])->get('id');
+        $find = Notes::find($request['token']);
         if ($find) {
             $notes = Notes::where(['userid' => $request['token']])->get(['id','labelname','title','description','color','ispinned','isarchived','istrash','reminder']);
             return response()->json(['data' => $notes],200);
@@ -232,7 +229,7 @@ class NoteController extends Controller
     }
 
     //working
-    public function updatePin(Request $request)//to update pin 
+    public function updatePin(Request $request)//to update pin
     {
         $find = Notes::find($request['id']);
         if($find)
