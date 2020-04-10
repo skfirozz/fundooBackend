@@ -286,6 +286,17 @@ class NoteController extends Controller
         }
     }
 
+    public function filterData(Request $request)
+    {
+        $find=Notes::where(['userid'=> 1])->get('id');
+        if($find){
+            $query = User::where('name', 'LIKE', "%i%");
+            if($values!='[]'){
+                return response()->json(['message' => $values]);
+            }
+            return response()->json(['message' => 'unauthorized error']);
+        }
+    }
 
     
 }
