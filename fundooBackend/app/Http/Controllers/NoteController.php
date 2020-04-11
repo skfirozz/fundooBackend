@@ -38,30 +38,17 @@ class NoteController extends Controller
         }   
     }
 
-    public function getUniqueLabels(Request $request)//to get label names without repitation
+
+
+    public function getUniqueLabels(Request $request)
     {
-        $find = Labelnotes::where(['userid' => $request['token']])->get(['id']);
+        $find =Labelnotes::distinct('labelname')->where('userid',$request['token'])->get('labelname','id','noteid');
         if ($find) {
-           $labels=Labelnotes::where(['userid' => $request['token']])->get(['id','labelname']);
-           $result=array();
-           for($i=0;$i<count($labels);$i++)
-            {
-                $inc=0;
-                $temp=$labels[$i]['labelname'];
-                for($j=0;$j<count($result);$j++)
-                {
-                    if($temp==$result[$j]['labelname'])
-                    $inc++;
-                }
-                if($inc==0)
-                $result[]=$labels[$i];
-            }
-           return response()->json(['data' => $result]);
+           return response()->json(['data' => $find]);
         } else {
             return response()->json(['message' => 'unauthorized user']);
         }
     }
-
 
     public function getLabelNotes(Request $request)//to get label names depend on note id
     {
@@ -289,9 +276,8 @@ class NoteController extends Controller
     public function searchData(Request $request)
     {
         $search = $request['search'];
-        $user = Notes::where('userid', $request['id'])->get('id');
-        return response()->json(['message' =>  $user]);
+        $user = Notes::where('userid', $request['token'])->where('title','LIKE',"%{$search}%")->orwhere('description','LIKE',"%{$search}%")->get();
+        return response()->json(['data' =>  $user]);
     }
 
-    
 }

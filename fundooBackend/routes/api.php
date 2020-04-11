@@ -60,7 +60,6 @@ Route::post('/deleteCollaboration','NoteController@deleteCollaboration');
 Route::post('/searchData','NoteController@searchData');
 
 
-
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
