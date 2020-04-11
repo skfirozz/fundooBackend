@@ -57,7 +57,7 @@ Route::get('/userDetails','ApiAuthController@userDetails');
 Route::post('/addCollaborator','ApiAuthController@collaborator');
 Route::post('/deleteCollaboration','NoteController@deleteCollaboration');
 
-Route::get('/filterData','NoteController@filterData');
+Route::post('/searchData','NoteController@searchData');
 
 
 
