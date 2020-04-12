@@ -23,7 +23,7 @@ class NoteController extends Controller
         }
     }
 
-    public function createLabel(Request $request)//to create new Labek Name
+    public function createLabel(Request $request)//to create new Label Name
     {
         $labelname =$request->all();
         $find=Labelnotes::where(['userid' => $labelname['token'],'noteid'=>$labelname['noteid'],'labelname'=> $labelname['labelname']])->get(['id']);
@@ -279,5 +279,4 @@ class NoteController extends Controller
         $user = Notes::where('userid', $request['token'])->where('title','LIKE',"%{$search}%")->orwhere('description','LIKE',"%{$search}%")->get();
         return response()->json(['data' =>  $user]);
     }
-
 }

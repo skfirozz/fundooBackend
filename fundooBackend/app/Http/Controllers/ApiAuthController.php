@@ -144,6 +144,17 @@ class ApiAuthController extends Controller
         return response()->json(['data' => 'error']);
     }
 
+    public function updateProfile(Request $request)
+    {
+        $find=User::find($request['token']);
+        if($find){
+            $find->profile="hiiiiiiiiiiii";
+            return response()->json(['message'=>"profile updated"]);
+        }
+        else return response()->json(['message'=>"profile not updated"]);
+    }
+
+
     public function collaborator(Request $request)
     {
         $emailExist=User::where(['email'=>$request['email']])->get('id');

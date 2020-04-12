@@ -59,6 +59,9 @@ Route::post('/deleteCollaboration','NoteController@deleteCollaboration');
 
 Route::post('/searchData','NoteController@searchData');
 
+//----------PROFILE--------------------
+Route::post('/updateProfile','ApiAuthController@updateProfile');
+
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
