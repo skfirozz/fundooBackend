@@ -148,10 +148,12 @@ class ApiAuthController extends Controller
     {
         $find=User::find($request['token']);
         if($find){
-            $find->profile="hiiiiiiiiiiii";
-            return response()->json(['message'=>"profile updated"]);
+            $find->profile=$request['profilePic'];
+            $find->save();
+            return response()->json(['message'=>$find]);
         }
-        else return response()->json(['message'=>"profile not updated"]);
+        else
+         return response()->json(['message'=>"profile not updated"]);
     }
 
 
