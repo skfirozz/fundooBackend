@@ -16,3 +16,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('get-file', 'CloudderController@getFile');
+Route::post('upload-file', ['as'=>'upload-file','uses'=>'CloudderController@uploadFile']);
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});
