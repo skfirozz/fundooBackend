@@ -15,6 +15,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/', 'ImageUploadController@home');
+
+Route::post('/upload/images', [
+  'uses'   =>  'ImageUploadController@uploadImages',
+  'as'     =>  'uploadImage'
+]);
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

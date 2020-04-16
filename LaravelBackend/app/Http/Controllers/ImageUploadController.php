@@ -19,7 +19,7 @@ class ImageUploadController extends Controller
 
        $image_name = $request->file('image_name')->getRealPath();;
 
-       Cloudder::upload($image_name, null);
+    //    Cloudder::upload($image_name, null);
 
        return redirect()->back()->with('status', 'Image Uploaded Successfully');
 
