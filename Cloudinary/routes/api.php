@@ -13,6 +13,14 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::post('/insertTest','TestORM@insertTest');
+Route::post('/read','TestORM@read');
+Route::post('/find','TestORM@find');
+Route::post('/count','TestORM@count');
+Route::post('/readMax','TestORM@readMax');
+Route::post('/update','TestORM@update');
+Route::post('/delete','TestORM@delete');
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
