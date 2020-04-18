@@ -148,7 +148,7 @@ class ApiAuthController extends Controller
     {
         $find=User::find($request['token']);
         if($find){
-            $find->profile=$request['profilePic'];
+            $find->profileImage=$request['profilePic'];
             $find->save();
             return response()->json(['message'=>$find]);
         }

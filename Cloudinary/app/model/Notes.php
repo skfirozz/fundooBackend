@@ -8,6 +8,6 @@ class Notes extends Model
 {
     protected $table='notes';
     protected $fillable = [
-        'title', 'description','userid','color','ispinned','isarchived','labelname','reminder',
+        'title', 'description','userid','color','ispinned','isarchived','labelname','reminder','collaborator',
     ];
 }

@@ -17,7 +17,7 @@ class NoteController extends Controller
         } else {
             $inputValues['userid']= $inputValues['token'];
             $data = Notes::create($inputValues);
-            return response()->json(['message' => $data]);
+            return response()->json(['message' => 'notes created successfully']);
         }
     }
 
