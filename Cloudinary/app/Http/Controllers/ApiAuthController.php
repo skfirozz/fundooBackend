@@ -1,15 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-header('Access-Control-Allow-Origin: *');
-header("Access-Control-Allow-Headers: *");
-header('Access-Control-Request-Method: POST');
 
 use Illuminate\Http\Request;
 use App\User;
 use App\model\Notes;
-use App\Libraries\RBMQSender;
-use Illuminate\Support\Facades\Auth;
 
 class ApiAuthController extends Controller
 {
@@ -33,7 +28,21 @@ class ApiAuthController extends Controller
         
         $find=User::find();
 
-        return response(['user' => $user, 'access_token' => $token]);
+        // $rabbitmq = new RBMQSender();
+
+        // $toEmail = 'shaikfiroz838@gmail.com';
+        // // $toEmail=$validatedData['email'];
+        // $subject = "Please verify email for register";
+        // $message = "Hi  \nThis is email verification mail from Fundoo.
+        // \nFor complete registration process verify you email by click this link.
+        // \n" . url('/') . "/api/verifyMail/" . $token . "
+        // \nThanks.";
+
+        // if ($rabbitmq->sendMail($toEmail, $subject, $message)) {
+            return response(['user' => $user, 'access_token' => $token]);
+        // } else {
+            // return response()->json(['success' => 'success', 'message' => 'Registerd successfully.']);
+        // }
     }
 
     public function verifyMail($token)
@@ -67,6 +76,7 @@ class ApiAuthController extends Controller
         else{
             return response()->json(['message' => 'invalid', 'token' => $data]);
         }
+        return response()->json(['message' => 'invalid', 'token' => 'ok']);
     }
 
     public function forgotPassword(Request $request)
@@ -164,4 +174,9 @@ class ApiAuthController extends Controller
             return response()->json(['message' => 'Unregistered user']);
         }
     }  
+
+    public function test()
+    {
+        echo "Welcome to my WORLD";
+    }
 }

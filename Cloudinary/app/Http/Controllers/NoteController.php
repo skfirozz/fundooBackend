@@ -2,14 +2,8 @@
 
 namespace App\Http\Controllers;
 
-header('Access-Control-Allow-Origin: *');
-header("Access-Control-Allow-Headers: *");
-header('Access-Control-Request-Method: POST');
-
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\model\Notes;
-use App\model\Label;
 use App\model\Labelnotes;
 
 class NoteController extends Controller
