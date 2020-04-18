@@ -47,12 +47,26 @@ class TestORM extends Controller
         $test->save();
         return \response()->json(['update'=> $test]);
     }
-    
+
     public function delete()
     {
         $test=Test::find(3);
         $test->delete();
         return \response()->json(['delete'=> $test]);
+    }
+
+    public function destroy()
+    {
+        $test=Test::destroy([2,4]);
+        return \response()->json(['destroy'=>$test]);
+    }
+
+    public function withTrash()
+    {
+        $test=Test::withTrashed()
+                    ->where('token',1)
+                    ->get();
+        return \response()->json(['withTrash'=>$test]);
     }
 
 }

@@ -20,7 +20,8 @@ Route::post('/count','TestORM@count');
 Route::post('/readMax','TestORM@readMax');
 Route::post('/update','TestORM@update');
 Route::post('/delete','TestORM@delete');
-
+Route::post('/destroy','TestORM@destroy');
+Route::post('/withTrash','TestORM@withTrash');
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
