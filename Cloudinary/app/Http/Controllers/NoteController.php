@@ -29,7 +29,7 @@ class NoteController extends Controller
         {
             $labelname['userid']=$labelname['token'];
             $data=Labelnotes::create($labelname);
-            return response()->json(['message' => $data]);
+            return response()->json(['message' => 'label created']);
         }
         else{
             return response()->json(['message' => 'label not created']);
@@ -40,7 +40,7 @@ class NoteController extends Controller
 
     public function getUniqueLabels(Request $request)
     {
-        $find =Labelnotes::distinct('labelname')->where('userid',$request['token'])->get('labelname','id','noteid');
+        $find =Labelnotes::distinct('labelname')->where('userid',$request['token'])->get();
         if ($find) {
            return response()->json(['data' => $find]);
         } else {

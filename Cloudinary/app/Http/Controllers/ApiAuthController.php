@@ -25,8 +25,6 @@ class ApiAuthController extends Controller
         $user = User::create($validatedData);
         
         $token = $user->createToken('SECRETKEY')->accessToken;
-        
-        $find=User::find();
 
         // $rabbitmq = new RBMQSender();
 
