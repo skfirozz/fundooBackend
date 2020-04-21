@@ -40,9 +40,22 @@ class NoteController extends Controller
 
     public function getUniqueLabels(Request $request)
     {
-        $find =Labelnotes::distinct('labelname')->where('userid',$request['token'])->get();
-        if ($find) {
-           return response()->json(['data' => $find]);
+        $labels =Labelnotes::select(['id','labelname'])->distinct('labelname')->where('userid',$request['token'])->get();
+        if ($labels) {
+           $result=array();
+           for($i=0;$i<count($labels);$i++)
+            {
+                $inc=0;
+                $temp=$labels[$i]['labelname'];
+                for($j=0;$j<count($result);$j++)
+                {
+                    if($temp==$result[$j]['labelname'])
+                    $inc++;
+                }
+                if($inc==0)
+                $result[]=$labels[$i];
+            }
+            return response()->json(['data' => $result]);
         } else {
             return response()->json(['message' => 'unauthorized user']);
         }
