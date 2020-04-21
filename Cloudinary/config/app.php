@@ -163,10 +163,13 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
         'JD\Cloudder\CloudderServiceProvider',
-
+        'Tymon\JWTAuth\Providers\LaravelServiceProvider',
         /*
          * Package Service Providers...
+         * 
+         * 
          */
+        
 
         /*
          * Application Service Providers...
