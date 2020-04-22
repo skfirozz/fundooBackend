@@ -21,7 +21,7 @@ class ApiAuthController extends Controller
         $validatedData['name'] = $validated['firstName'] . " " . $validated['lastName'];
         $validatedData['email'] = $validated['email'];
         $validatedData['password'] = $validated['password'];
-
+        $validatedData['password'] = bcrypt($validatedData['password']);
         $user = User::create($validatedData);
         
         $token = $user->createToken('SECRETKEY')->accessToken;

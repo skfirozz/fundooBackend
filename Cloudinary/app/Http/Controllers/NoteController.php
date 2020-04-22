@@ -136,7 +136,7 @@ class NoteController extends Controller
     {
         $find = Notes::find($request['token']);
         if ($find) {
-            $notes = Notes::where(['userid' => $request['token']])->get(['id','labelname','title','description','color','ispinned','isarchived','istrash','reminder']);
+            $notes = Notes::where(['userid' => $request['token']])->get(['id','labelname','title','description','color','ispinned','isarchived','istrash','reminder','collaborator']);
             return response()->json(['data' => $notes],200);
         }
         else 

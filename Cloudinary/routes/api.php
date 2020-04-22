@@ -74,6 +74,8 @@ Route::post('/searchData','NoteController@searchData');
 Route::post('/updateProfile','ApiAuthController@updateProfile');
 
 
+//--------------------------------------
+Route::post('logi', 'AuthController@login');
 
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
