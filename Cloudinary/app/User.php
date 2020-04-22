@@ -5,9 +5,10 @@ namespace App;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, Notifiable;
 
@@ -39,19 +40,12 @@ class User extends Authenticatable
     ];
 
     public function getJWTIdentifier()
-   {
-       return $this->getKey();
-   }
+    {
+        return $this->getKey();
+    }
 
-   public function getJWTCustomClaims()
-   {
-       return [];
-   }
- 
-   public function setPasswordAttribute($password)
-   {
-       if ( !empty($password) ) {
-           $this->attributes['password'] = bcrypt($password);
-       }
-   }
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
 }
