@@ -2,16 +2,6 @@
 
 use Illuminate\Http\Request;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 
 Route::post('/insertTest','TestORM@insertTest');
 Route::post('/read','TestORM@read');
@@ -26,13 +16,13 @@ Route::post('/withTrash','TestORM@withTrash');
 //--------------FUNDOO--------------------------
 // Route::get('/test', 'ApiAuthController@test');
 
-// Route::post('/register', 'ApiAuthController@register');
-// Route::get('/verifyMail/{token}', 'ApiAuthController@verifyMail');
-// Route::post('/forgotPassword', 'ApiAuthController@forgotPassword');
-// Route::post('/resetPassword/{token}', 'ApiAuthController@resetPassword');
+Route::post('/register', 'ApiAuthController@register');
+Route::get('/verifyMail/{token}', 'ApiAuthController@verifyMail');
+Route::post('/forgotPassword', 'ApiAuthController@forgotPassword');
+Route::post('/resetPassword/{token}', 'ApiAuthController@resetPassword');
 
 // Route::post('/login', 'ApiAuthController@login');
-
+Route::post('/convertJwtToId/{token}', 'ApiAuthController@convertJwtToId');
 
 
 Route::post('login', 'AuthController@login');

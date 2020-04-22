@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Libraries\RBMQSender;
 use Illuminate\Http\Request;
 use App\User;
 use App\model\Notes;
@@ -26,29 +27,28 @@ class ApiAuthController extends Controller
         $user = User::create($validatedData);
         
         $token = $user->createToken('SECRETKEY')->accessToken;
+        
+        $rabbitmq = new RBMQSender();
 
-        // $rabbitmq = new RBMQSender();
+        $toEmail = 'shaikfiroz838@gmail.com';
+        // $toEmail=$validatedData['email'];
+        $subject = "Please verify  email for register";
+        $message = "Hi  \nThis is email verification mail from Fundoo.
+        \nFor complete registration process verify you email by click this link.
+        \n" . url('/') . "/api/verifyMail/" . $token . "
+        \nThanks.";
 
-        // $toEmail = 'shaikfiroz838@gmail.com';
-        // // $toEmail=$validatedData['email'];
-        // $subject = "Please verify email for register";
-        // $message = "Hi  \nThis is email verification mail from Fundoo.
-        // \nFor complete registration process verify you email by click this link.
-        // \n" . url('/') . "/api/verifyMail/" . $token . "
-        // \nThanks.";
-
-        // if ($rabbitmq->sendMail($toEmail, $subject, $message)) {
-            return response(['user' => $user, 'access_token' => $token]);
-        // } else {
-            // return response()->json(['success' => 'success', 'message' => 'Registerd successfully.']);
-        // }
+        if ($rabbitmq->sendMail($toEmail, $subject, $message)) {
+            return response(['success' => 'registerd successfully']);
+        } else {
+            return response()->json(['successBut' => 'error while sending link to mail']);
+        }
     }
 
     public function verifyMail($token)
     {
         $tokenArray = preg_split("/\./", $token);
         $decodetoken = base64_decode($tokenArray[1]);
-        echo $decodetoken;
         $decodetoken = json_decode($decodetoken, true);
         $user_id = $decodetoken['sub'];
 
@@ -58,25 +58,13 @@ class ApiAuthController extends Controller
         } else if ($user->email_verified_at == null) {
             $user->email_verified_at = now();
             $user->save();
-
             return response()->json(['message' => "Email is Successfully verified"], 201);
         } else {
             return response()->json(['message' => "Email Already verified"], 202);
         }
     }
 
-    public function login(Request $request)
-    {
-        $inputvalues=$request->all();
-        $data=User::where(['email' => $inputvalues['email'],'password'=>$inputvalues['password']])->get('id');
-        if($data!="[]"){
-            return response()->json(['message' => 'valid', 'token' => $data[0]['id']]);
-        }
-        else{
-            return response()->json(['message' => 'invalid', 'token' => $data]);
-        }
-        return response()->json(['message' => 'invalid', 'token' => 'ok']);
-    }
+
 
     public function forgotPassword(Request $request)
     {
@@ -96,7 +84,7 @@ class ApiAuthController extends Controller
             $subject = "Please verify email to reset your password";
             $message = "Hi , \nThis is email from fundoo.
             \nFor complete reset password process click this link.
-            \n" . url('/') . "/api/resetPassword/" . $token . "
+            \n" . url('/') . "/resetPassword/" . $token ."
             \nThanks.";
 
             $email = 'shaikfiroz838@gmail.com';
@@ -113,24 +101,22 @@ class ApiAuthController extends Controller
 
     public function resetPassword(Request $request, $token)
     {
-        $validator = $request->validate(
-            [
-                'password' => 'required|confirmed'
-            ]
-        );
+        $validator = $request['password'];
 
         $tokenArray = preg_split("/\./", $token);
         $decodetoken = base64_decode($tokenArray[1]);
         $decodetoken = json_decode($decodetoken, true);
         $id = $decodetoken['sub'];
 
-        $user = User::where(['id' => $id])->first();
+        $user = User::where('id',1)->get('name');
+        return response()->json(['id' => $user]);
         if ($user) {
-            $user->password = bcrypt($validator['password']);
+            // $user->password = bcrypt($validator['password']);
+            return response()->json(['id' => $user]);   
             $user->save();
             return response()->json(['message' => 'Password is changed'], 200);
         } else {
-            return response()->json(['message' => 'unknown'], 400);
+            return response()->json(['message' => 'unknown']);
         }
     }
 
@@ -158,21 +144,20 @@ class ApiAuthController extends Controller
 
     public function collaborator(Request $request)
     {
-        $emailExist=User::where(['email'=>$request['email']])->get('id');
-        if($emailExist){
-            $user = Notes::find($request['id']);
-            if ($user) {
-                $user->collaborator=$request['email'];
-                $user->save();
-                return response()->json(['message' => 'Collaboration is added'], 200);
-            } else {
-                return response()->json(['message' => 'Error while adding']);
-            }
+        $user = Notes::find($request['id']);
+        if ($user) {
+            $user->collaborator=$request['email'];
+            $user->save();
+            return response()->json(['message' => 'Collaboration is added'], 200);
+        } else {
+            return response()->json(['message' => 'Error while adding']);
         }
-        else{
-            return response()->json(['message' => 'Unregistered user']);
-        }
-    }  
+    }
+
+    public function convertJwtToId($token){
+        $value=app('App\Http\Controllers\AuthController')->me();
+        return  $value->original->id;
+    }
 
     public function test()
     {
