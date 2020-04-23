@@ -34,7 +34,6 @@ class NoteController extends Controller
         $labelname =$request->all();
         $token=$request['token'];
         $userId=NoteController::convertJwtToId($token);
-        return $userId;
         $find=Labelnotes::where(['userid' => $userId,'noteid'=>$labelname['noteid'],'labelname'=> $labelname['labelname']])->get(['id']);
         if(count($find) == 0)
         {
@@ -79,8 +78,7 @@ class NoteController extends Controller
     {
         $token=$request['token'];
         $userId=NoteController::convertJwtToId($token);
-        
-        $find = Labelnotes::where(['userid' ,  1])->get();
+        $find = Labelnotes::where(['userid'=> $userId])->get();
         if ($find) {
            return response()->json(['data' => $find]);
         } else {
