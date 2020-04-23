@@ -122,7 +122,8 @@ class ApiAuthController extends Controller
 
     public function userDetails(Request $request)
     {
-        $find=User::find($request['token']);
+        $id=ApiAuthController::convertJwtToId($request['token']);
+        $find=User::find($id);
         if($find){
             return response()->json(['data' => $find]);
         }
@@ -131,7 +132,8 @@ class ApiAuthController extends Controller
 
     public function updateProfile(Request $request)
     {
-        $find=User::find($request['token']);
+        $id=ApiAuthController::convertJwtToId($id);
+        $find=User::find($id);
         if($find){
             $find->profileImage=$request['profilePic'];
             $find->save();
@@ -156,7 +158,8 @@ class ApiAuthController extends Controller
 
     public function convertJwtToId($token){
         $value=app('App\Http\Controllers\AuthController')->me();
-        return  $value->original->id;
+        $a1=$value->original->id;
+        return $a1;
     }
 
     public function test()

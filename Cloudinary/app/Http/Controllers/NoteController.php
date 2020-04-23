@@ -8,14 +8,22 @@ use App\model\Labelnotes;
 
 class NoteController extends Controller
 {
+
+    public function convertJwtToId($token){
+        $value=app('App\Http\Controllers\AuthController')->me();
+        $a1=$value->original->id;
+        return $a1;
+    }
+
+
     public function createNotes(Request $request)//to create a new note
     {
         $inputValues = $request->all();
-    
+        $token=$request['token'];
         if ($inputValues['title'] == null  && $inputValues['description'] == null) {
             return response()->json(['message' => 'title and notes should not be empty']);
         } else {
-            $inputValues['userid']= $inputValues['token'];
+            $inputValues['userid']= NoteController::convertJwtToId($token);
             $data = Notes::create($inputValues);
             return response()->json(['message' => 'notes created successfully']);
         }
@@ -24,10 +32,13 @@ class NoteController extends Controller
     public function createLabel(Request $request)//to create new Label Name
     {
         $labelname =$request->all();
-        $find=Labelnotes::where(['userid' => $labelname['token'],'noteid'=>$labelname['noteid'],'labelname'=> $labelname['labelname']])->get(['id']);
+        $token=$request['token'];
+        $userId=NoteController::convertJwtToId($token);
+        return $userId;
+        $find=Labelnotes::where(['userid' => $userId,'noteid'=>$labelname['noteid'],'labelname'=> $labelname['labelname']])->get(['id']);
         if(count($find) == 0)
         {
-            $labelname['userid']=$labelname['token'];
+            $labelname['userid']=$userId;
             $data=Labelnotes::create($labelname);
             return response()->json(['message' => 'label created']);
         }
@@ -40,7 +51,10 @@ class NoteController extends Controller
 
     public function getUniqueLabels(Request $request)
     {
-        $labels =Labelnotes::select(['id','labelname'])->distinct('labelname')->where('userid',$request['token'])->get();
+        $token=$request['token'];
+        $userId=NoteController::convertJwtToId($token);
+        
+        $labels =Labelnotes::select(['id','labelname'])->distinct('labelname')->where('userid', $userId)->get();
         if ($labels) {
            $result=array();
            for($i=0;$i<count($labels);$i++)
@@ -63,10 +77,12 @@ class NoteController extends Controller
 
     public function getLabelNotes(Request $request)//to get label names depend on note id
     {
-        $find = Labelnotes::where(['userid' => $request['token']])->get(['id']);
+        $token=$request['token'];
+        $userId=NoteController::convertJwtToId($token);
+        
+        $find = Labelnotes::where(['userid' ,  1])->get();
         if ($find) {
-           $labels=Labelnotes::where(['userid' => $request['token']])->get(['id','labelname','noteid']);
-           return response()->json(['data' => $labels]);
+           return response()->json(['data' => $find]);
         } else {
             return response()->json(['message' => 'unauthorized user']);
         }
@@ -134,83 +150,32 @@ class NoteController extends Controller
 
     public function getAllNotes(Request $request)//to get all notes main ---- this is enough to maintain display notes
     {
-        $find = Notes::find($request['token']);
-        if ($find) {
-            $notes = Notes::where(['userid' => $request['token']])->get(['id','labelname','title','description','color','ispinned','isarchived','istrash','reminder','collaborator']);
-            return response()->json(['data' => $notes],200);
+        $token=$request['token'];
+        $userId=NoteController::convertJwtToId($token);
+        if ($token) {
+            $notes = Notes::where(['userid' => $userId])->get();
+            return response()->json(['data' => $notes]);
         }
         else 
         {
-            return response()->json(['data' => 'unauthorized error']);
+            return response()->json(['data' => 'error']);
         }
     }
 
+    // public function getallLabels(Request $request)
+    // {
 
-    public function getPinNotes(Request $request)//to get only pinned notes
-    {
-        $find = Notes::find($request['token']);
-        if ($find) {
-            $notes = Notes::where(['userid' => $request['token'] ,'ispinned'=>true])->get(['id','title','description','color','ispinned','isarchived','istrash','reminder']);
-        return response()->json(['data' => $notes],200);
-        }
-        else 
-        {
-            return response()->json(['message' => 'unauthorized error']);
-        }
-    }
-
-    public function getUnPinNotes(Request $request)//to get unpinned notes
-    {
-        $find = Notes::find($request['token']);
-        if ($find) {
-            $notes = Notes::where(['userid' => $request['token'] ,'ispinned'=>false])->get(['id','title','description','color','ispinned','isarchived','istrash','reminder']);
-        return response()->json(['data' => $notes],200);
-        }
-        else 
-        {
-            return response()->json(['message' => 'unauthorized error']);
-        }
-    }
-
-    public function getTrashNotes(Request $request)//to get only trash notes
-    {
-            $find = Notes::find($request['token']);
-            if ($find) {
-                $notes = Notes::where(['userid' => $request['token'] ,'istrash'=>true])->get(['id','title','description','color','istrash','reminder']);
-                return response()->json(['data' => $notes],200);
-            }
-            else 
-            {
-                return response()->json(['message' => 'unauthorized error']);
-            }
-    }
-
-
-    public function getArchiveNotes(Request $request)//to get only archived notes
-    {
-        $find = Notes::find($request['token']);
-        if ($find) {
-            $notes = Notes::where(['userid' => $request['token'] ,'isarchived'=> true,'istrash'=>false])->get(['id','title','description','color','ispinned','isarchived','istrash','reminder']);
-        return response()->json(['data' => $notes],200);
-        }
-        else 
-        {
-            return response()->json(['message' => 'unauthorized error']);
-        }
-    }
-
-    public function getallLabels(Request $request)
-    {
-        $find = Notes::find($request['token']);
-        if ($find) {
-            $notes = Notes::where(['userid' => $request['token']])->get(['id','label','title','description','color','ispinned','isarchived','istrash','reminder']);
-        return response()->json(['data' => $notes],200);
-        }
-        else 
-        {
-            return response()->json(['message' => 'unauthorized error']);
-        }
-    }
+    //     $token=$request['token'];
+    //     $userId=NoteController::convertJwtToId($token);
+    //     if ($userId) {
+    //         $notes = Notes::where(['userid' => $userId])->get(['id','label','title','description','color','ispinned','isarchived','istrash','reminder']);
+    //     return response()->json(['data' => $notes],200);
+    //     }
+    //     else 
+    //     {
+    //         return response()->json(['message' => 'unauthorized error']);
+    //     }
+    // }
     //working
     public function setColor(Request $request)//to set color for notes
     {
@@ -287,7 +252,10 @@ class NoteController extends Controller
     public function searchData(Request $request)
     {
         $search = $request['search'];
-        $user = Notes::where('userid', $request['token'])->where('title','LIKE',"%{$search}%")->orwhere('description','LIKE',"%{$search}%")->get();
+        $token=$request['token'];
+        $userId=NoteController::convertJwtToId($token);
+        
+        $user = Notes::where('userid', $userId)->where('title','LIKE',"%{$search}%")->orwhere('description','LIKE',"%{$search}%")->get();
         return response()->json(['data' =>  $user]);
     }
 }

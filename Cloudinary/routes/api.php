@@ -22,7 +22,8 @@ Route::post('/forgotPassword', 'ApiAuthController@forgotPassword');
 Route::post('/resetPassword/{token}', 'ApiAuthController@resetPassword');
 
 // Route::post('/login', 'ApiAuthController@login');
-Route::post('/convertJwtToId/{token}', 'ApiAuthController@convertJwtToId');
+Route::post('/convertJwtToId/{token}', 'NoteController@convertJwtToId');
+Route::post('/jwt', 'NoteController@jwt');
 
 
 Route::post('login', 'AuthController@login');
@@ -47,20 +48,16 @@ Route::post('/deleteLabel','NoteController@deleteLabel');
 Route::post('/deleteReminder','NoteController@deleteReminder');
 
 //------------DISPLAY------------------
-Route::get('/getAllNotes','NoteController@getAllNotes');
-Route::get('/getPinNotes','NoteController@getPinNotes');
-Route::get('/getUnPinNotes','NoteController@getUnPinNotes');
-Route::get('/getTrashNotes','NoteController@getTrashNotes');
-Route::get('/getArchive','NoteController@getArchiveNotes'); 
-Route::get('/getallLabels','NoteController@getallLabels');
+Route::post('/getAllNotes','NoteController@getAllNotes');
+// Route::get('/getallLabels','NoteController@getallLabels');
 
 //----------Labels----------------
 Route::post('/createLabel','NoteController@createLabel');
-Route::get('/getLabels','NoteController@getUniqueLabels');
-Route::get('/getLabelNotes','NoteController@getLabelNotes');
+Route::post('/getLabels','NoteController@getUniqueLabels');
+Route::post('/getLabelNotes','NoteController@getLabelNotes');
 
 //--------userDetails----------
-Route::get('/userDetails','ApiAuthController@userDetails');
+Route::post('/userDetails','ApiAuthController@userDetails');
 Route::post('/addCollaborator','ApiAuthController@collaborator');
 Route::post('/deleteCollaboration','NoteController@deleteCollaboration');
 
