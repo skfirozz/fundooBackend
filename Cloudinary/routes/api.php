@@ -14,7 +14,7 @@ Route::post('/destroy','TestORM@destroy');
 Route::post('/withTrash','TestORM@withTrash');
 
 //--------------FUNDOO--------------------------
-// Route::get('/test', 'ApiAuthController@test');
+Route::get('/test', 'ApiAuthController@test');
 
 Route::post('/register', 'ApiAuthController@register');
 Route::get('/verifyMail/{token}', 'ApiAuthController@verifyMail');

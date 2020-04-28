@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Libraries\RBMQSender;
 use Illuminate\Http\Request;
 use App\User;
 use App\model\Notes;
+use Illuminate\Support\Facades\Redis;
+
 
 class ApiAuthController extends Controller
 {
@@ -162,8 +163,9 @@ class ApiAuthController extends Controller
         return $a1;
     }
 
-    public function test()
+    public function test(Request $request)
     {
-        echo "Welcome to my WORLD";
+        Redis::set('taylor', 'Taylor');
+        echo "ok";
     }
 }
