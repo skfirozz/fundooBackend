@@ -1,0 +1,3 @@
+create function sfUCase(name char(20))
+returns char(20) deterministic
+return UCASE(name);

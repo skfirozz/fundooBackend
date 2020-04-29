@@ -1,0 +1,9 @@
+begin
+select od.ordernumber , o.officecode , e.officecode as empoffcode , oo.ordernumber as ODNUMBER , p.customernumber
+from orderdetails od 
+INNER JOIN  offices o 
+INNER JOIN  employees e 
+INNER JOIN  orders oo 
+INNER JOIN  payments p
+ON e.officecode=o.officecode limit 5;
+end

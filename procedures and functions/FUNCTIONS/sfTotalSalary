@@ -1,0 +1,3 @@
+create function sfSalary(salary1 int, salary2 int)
+returns int(10) deterministic
+return sum(salary1 + salary2);

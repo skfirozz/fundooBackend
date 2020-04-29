@@ -1,0 +1,4 @@
+begin
+select od.ordernumber , o.officecode , e.officecode as empoffcode , oo.ordernumber as ODNUMBER , p.customernumber
+from orderdetails od, offices o , employees e, orders oo , payments p limit 5;
+end

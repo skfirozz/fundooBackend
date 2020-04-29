@@ -1,0 +1,9 @@
+begin
+select od.ordernumber , o.officecode , e.officecode as empoffcode , oo.ordernumber as ODNUMBER , p.customernumber
+from orderdetails od 
+CROSS JOIN  offices o 
+CROSS JOIN  employees e 
+CROSS JOIN  orders oo 
+CROSS JOIN  payments p
+limit 7;
+end

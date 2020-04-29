@@ -1,0 +1,5 @@
+begin
+select e1.lastname , e2. firstname 
+from employees e1 JOIN employees e2
+ON e1.lastname=e2.lastname limit 5;
+end
