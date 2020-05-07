@@ -1,0 +1,6 @@
+create procedure spcdatabse()
+begin 
+DECLARE EXIT HANDLER FOR 1007
+SELECT 'can t create database' Message; 
+  create database abc;
+END;
