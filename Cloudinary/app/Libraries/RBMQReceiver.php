@@ -26,7 +26,7 @@ class RBMQReceiver
 
             $transport = (new \Swift_SmtpTransport('smtp.gmail.com', 587, 'tls'))
                 ->setUsername('shaikfiroz838@gmail.com')
-                ->setPassword('firoz111');
+                ->setPassword('password');
 
             $mailer = new \Swift_Mailer($transport);
 
